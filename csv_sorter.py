@@ -104,8 +104,8 @@ def create_output(data, output_excel):
 
     df = pd.DataFrame(data)
 
-    if output_excel:
-        df.to_excel('output.xlsx')
+    if output_excel != 'false':
+        df.to_excel(output_excel)
         print('Output written to Excel sheet.')
     else:
         print(df.to_string())
@@ -120,13 +120,12 @@ if __name__ == "__main__":
                                      description='Script to parse out duplicate entries (i.e., same srcip, dstport and dstip), create a hitcounter and sort the output based on srcip, srcport, dstip, dstport, service, app or hitcount.',)
     parser.add_argument('filename', help='Filename in .CSV format')
     parser.add_argument('-s', '--sort', help='Sort by field srcip, srcport, dstip, dstport, service, app or hitcount')
-    parser.add_argument('-oe', '--output_excel', action='store_true', default='false', help='Output Excel file name (optional)')
+    parser.add_argument('-oe', '--output_excel', default='false', help='Output Excel file name (optional)')
 
     args = parser.parse_args()
     input_file = args.filename
     sort_key = str(args.sort)
-    output_excel = args.output_excel
-
+    output_excel = str(args.output_excel)
 
     # Convert the CSV file to dict
     parsed_data = convert_csv_dict(input_file)
