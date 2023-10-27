@@ -115,6 +115,23 @@ def create_output(data, output_excel):
         print(df.to_string())
 
 
+def log_to_csv(input_file):
+    try:
+        with open(input_file, 'r') as log_file:
+            with open(input_file[:-4:] + ".csv", 'w') as csv_file:
+                for line in log_file:
+                    # Replace spaces with commas and write to the CSV file
+                    csv_line = line.replace(' ', ',')
+                    csv_file.write(csv_line)
+            return csv_file
+    except FileNotFoundError:
+        print("Input file not found.")
+        quit()
+    except Exception as e:
+        print("An error occurred:", str(e))
+        quit()
+
+
 if __name__ == "__main__":
     """
     """
@@ -131,6 +148,10 @@ if __name__ == "__main__":
     sort_key = str(args.sort)
     output_excel = str(args.output_excel)
 
+    # If input file is .log convert it to .csv
+    if input_file[-4::] == ".log":
+        input_file = log_to_csv(input_file)
+        
     # Convert the CSV file to dict
     parsed_data = convert_csv_dict(input_file)
     # Sort and filter duplicate entries
