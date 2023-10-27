@@ -51,6 +51,7 @@ def get_unique_hits(parsed_data, sort_key):
     i = 0
     # loop through the parsed data and create variables for the fields
     for data in parsed_data:
+          
         data["hitcount"] = 0 # Add new key to count times the entry has been hit
         if data.keys in FIELDS:
             app = data["app"]
@@ -116,6 +117,9 @@ def create_output(data, output_excel):
 
 
 def log_to_csv(input_file):
+    """
+    Convert a .log file downloaded from Fortigate to .csv
+    """
     try:
         with open(input_file, 'r') as log_file:
             with open(input_file[:-4:] + ".csv", 'w') as csv_file:
@@ -123,7 +127,9 @@ def log_to_csv(input_file):
                     # Replace spaces with commas and write to the CSV file
                     csv_line = line.replace(' ', ',')
                     csv_file.write(csv_line)
-            return csv_file
+
+        return str(input_file[:-4:] + ".csv")
+
     except FileNotFoundError:
         print("Input file not found.")
         quit()
@@ -134,6 +140,7 @@ def log_to_csv(input_file):
 
 if __name__ == "__main__":
     """
+    Main logic to get arguments and pass it to the functions
     """
 
     # Arguments parser
@@ -151,7 +158,7 @@ if __name__ == "__main__":
     # If input file is .log convert it to .csv
     if input_file[-4::] == ".log":
         input_file = log_to_csv(input_file)
-        
+
     # Convert the CSV file to dict
     parsed_data = convert_csv_dict(input_file)
     # Sort and filter duplicate entries
