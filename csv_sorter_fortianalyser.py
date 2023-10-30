@@ -51,15 +51,17 @@ def get_unique_hits(parsed_data, sort_key):
     # loop through the parsed data and create variables for the fields
     for data in parsed_data:
         data["hitcount"] = 0 # Add new key to count times the entry has been hit
-        app = data["app"]
-        dstip = data["dstip"]
-        dstport = data["dstport"]
-        service = data["service"]
-        srcip = data["srcip"]
-        srcport = data["srcport"]
+        if data.keys in FIELDS:
+            app = data["app"]
+            dstip = data["dstip"]
+            dstport = data["dstport"]
+            service = data["service"]
+            srcip = data["srcip"]
+            srcport = data["srcport"]        
+            srcport = data["action"]  
 
         # the keys to check in uniwue_entries
-        entry_key = (srcip, dstport, dstip)
+        entry_key = (data["srcip"], data["service"], data["dstip"])
         if entry_key not in unique_entries:
             # First hitcount
             data["hitcount"] += 1

@@ -64,7 +64,7 @@ def get_unique_hits(parsed_data, sort_key):
 
         # the keys to check in uniwue_entries
         #print(data)
-        entry_key = (data["srcip"], data["dstport"], data["dstip"])
+        entry_key = (data["srcip"], data["service"], data["dstip"])
         if entry_key not in unique_entries:
             # First hitcount
             data["hitcount"] += 1
