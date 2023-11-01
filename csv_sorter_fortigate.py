@@ -3,7 +3,7 @@ import pandas as pd
 import argparse
 
 
-FIELDS = ["srcip", "srcport", "dstip", "dstport", "service", "app", "action"]
+FIELDS = ["srcip", "srcport", "dstip", "dstport", "service", "app", "action", "date"]
 
 # Function to read logs from CSV file and sort them
 def convert_csv_dict(input_file):
@@ -54,17 +54,18 @@ def get_unique_hits(parsed_data, sort_key):
           
         data["hitcount"] = 0 # Add new key to count times the entry has been hit
         if data.keys in FIELDS:
+            date = data["date"]
             app = data["app"]
             dstip = data["dstip"]
             dstport = data["dstport"]
             service = data["service"]
             srcip = data["srcip"]
             srcport = data["srcport"]        
-            srcport = data["action"]        
+            action = data["action"]        
 
         # the keys to check in uniwue_entries
         #print(data)
-        entry_key = (data["srcip"], data["service"], data["dstip"])
+        entry_key = (data["srcip"], data["service"], data["dstip"], data["action"])
         if entry_key not in unique_entries:
             # First hitcount
             data["hitcount"] += 1
