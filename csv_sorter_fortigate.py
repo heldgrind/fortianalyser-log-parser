@@ -145,9 +145,9 @@ if __name__ == "__main__":
     """
 
     # Arguments parser
-    parser = argparse.ArgumentParser(prog='Fortianalyzer log parser',
+    parser = argparse.ArgumentParser(prog='Fortianalyzer/Fortigate log parser',
                                      description='Script to parse out duplicate entries (i.e., same srcip, dstport and dstip), create a hitcounter and sort the output based on srcip, srcport, dstip, dstport, service, app or hitcount.',)
-    parser.add_argument('filename', help='Filename in .CSV format')
+    parser.add_argument('filename', help='Filename in .CSV format or .log format')
     parser.add_argument('-s', '--sort', help='Sort by field srcip, srcport, dstip, dstport, service, app or hitcount')
     parser.add_argument('-oe', '--output_excel', default='false', help='Output Excel file name (optional)')
 
