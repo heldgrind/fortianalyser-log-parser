@@ -1,5 +1,4 @@
 import csv
-import os
 import pandas as pd
 import argparse
 
@@ -64,8 +63,7 @@ def get_unique_hits(parsed_data, sort_key):
             srcport = data["srcport"]        
             action = data["action"]        
 
-        # the keys to check in uniwue_entries
-        #print(data)
+        # the keys to check in unique_entries
         entry_key = (data["srcip"], data["service"], data["dstip"])
         if entry_key not in unique_entries:
             # First hitcount
@@ -75,8 +73,7 @@ def get_unique_hits(parsed_data, sort_key):
             # Increase index counter
             i += 1
         else:
-            # If not unique == increase hitcount
-            # print(i)
+            # If not unique, increase hitcount
             record[i - 1]["hitcount"] += 1
         
     # sort the record based on sort_key argument
@@ -150,7 +147,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(prog='Fortianalyzer/Fortigate log parser',
                                      description='Script to parse out duplicate entries (i.e., same srcip, dstport and dstip), create a hitcounter and sort the output based on srcip, srcport, dstip, dstport, service, app or hitcount.',)
     parser.add_argument('filename', help='Filename in .CSV format or .log format')
-    parser.add_argument('-s', '--sort', help='Sort by field srcip, srcport, dstip, dstport, service, app or hitcount')
+    parser.add_argument('-s', '--sort', default=False, help='Sort by field srcip, srcport, dstip, dstport, service, app or hitcount')
     parser.add_argument('-oe', '--output_excel', default='false', help='Output Excel file name (optional)')
 
     args = parser.parse_args()
