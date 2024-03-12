@@ -55,16 +55,15 @@ def get_unique_hits(parsed_data, sort_key):
         data["hitcount"] = 0 # Add new key to count times the entry has been hit
         if data.keys in FIELDS:
             date = data["date"]
-            app = data["app"]
-            dstip = data["dstip"]
+            app = data.get("app", "N/A")
+            dstip = data.get("dstip","N/A")
             dstport = data["dstport"]
-            service = data["service"]
-            srcip = data["srcip"]
-            srcport = data["srcport"]        
+            service = data.get("service", "N/A")
+            srcip = data.get("srcip","N/A")
             action = data["action"]        
 
         # the keys to check in unique_entries
-        entry_key = (data["srcip"], data["service"], data["dstip"])
+        entry_key = (data.get("srcip","N/A"), data.get("service", "N/A"), data.get("dstip","N/A"))
         if entry_key not in unique_entries:
             # First hitcount
             data["hitcount"] += 1
@@ -96,7 +95,7 @@ def sort_list_of_dicts_by_key(entries_list, key_name):
     if key_name == 'hitcount':
         new_list = sorted(entries_list, key=lambda x: x[key_name], reverse=True)
     else:
-        new_list = sorted(entries_list, key=lambda x: x[key_name])
+        new_list = sorted(entries_list, key=lambda x: x[key_name]) # Sort the list based on the key_name
     return new_list
 
 
@@ -165,5 +164,4 @@ if __name__ == "__main__":
     data = get_unique_hits(parsed_data, sort_key)
     # Display the output
     create_output(data, output_excel)
-
 
